@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>TWBuyers 歷史價格</title>
+  <link rel="stylesheet" href="popup.css">
+  <script type="module" src="popup.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <img src="icons/48.png" width="32" height="32" alt="">
+      <div><strong>TWBuyers</strong><span>歷史價格</span></div>
+    </div>
+    <button id="settings-toggle" type="button" aria-controls="settings" aria-expanded="false">API 設定</button>
+  </header>
+
+  <main>
+    <form id="settings" class="panel settings" hidden>
+      <h1>API 驗證</h1>
+      <p>貼上你向 TWBuyers 申請的 Token。Token 儲存在這台裝置的 Chrome。儲存後，開啟支援的商品頁時，擴充元件會自動將查價所需的商品網址和 Token 傳給 TWBuyers Info。</p>
+      <label for="api-token">API Token</label>
+      <input id="api-token" name="apiToken" type="password" required spellcheck="false" autocomplete="off">
+      <p id="settings-message" class="form-message" role="status" hidden></p>
+      <div class="form-actions">
+        <button class="primary" type="submit">儲存設定</button>
+        <button id="clear-settings" type="button" hidden>清除金鑰</button>
+      </div>
+      <a href="https://twbuyers.info/connectToAPI" target="_blank" rel="noopener noreferrer">API 串接與金鑰申請 ↗</a>
+    </form>
+
+    <section id="state" class="panel state" aria-live="polite" aria-atomic="true">
+      <div id="spinner" class="spinner" aria-hidden="true"></div>
+      <h1 id="state-title">正在讀取目前分頁</h1>
+      <p id="state-message" hidden></p>
+      <button id="state-action" class="primary" type="button" hidden></button>
+    </section>
+
+    <article id="result" hidden>
+      <div class="product">
+        <img id="product-image" class="product-image" width="56" height="56" alt="" referrerpolicy="no-referrer" hidden>
+        <div>
+          <p id="platform" class="platform"></p>
+          <h1 id="product-name"></h1>
+        </div>
+      </div>
+
+      <dl class="summary">
+        <div class="panel metric">
+          <dt>最新記錄</dt>
+          <dd id="latest-price" class="price"></dd>
+          <dd><time id="latest-date"></time></dd>
+        </div>
+        <div class="panel metric">
+          <dt>近 12 個月最低價</dt>
+          <dd id="lowest-price" class="price"></dd>
+          <dd><time id="lowest-date"></time></dd>
+        </div>
+      </dl>
+
+      <section class="panel trend" aria-labelledby="trend-title">
+        <div class="trend-heading">
+          <h2 id="trend-title">價格走勢</h2>
+          <span id="price-indicator"></span>
+        </div>
+        <div class="chart-area">
+          <canvas id="chart" aria-label="歷史價格走勢圖" role="img"></canvas>
+          <div id="chart-guide" class="chart-guide" hidden></div>
+          <div id="chart-tooltip" class="chart-tooltip" hidden>
+            <time id="chart-tooltip-date"></time>
+            <strong id="chart-tooltip-price"></strong>
+          </div>
+        </div>
+        <p id="chart-range" class="chart-range"></p>
+      </section>
+
+      <details class="panel records">
+        <summary>最近價格紀錄</summary>
+        <table>
+          <thead><tr><th scope="col">更新時間</th><th scope="col">價格</th></tr></thead>
+          <tbody id="records"></tbody>
+        </table>
+      </details>
+    </article>
+  </main>
+
+  <footer>
+    <a href="https://twbuyers.info/" target="_blank" rel="noopener noreferrer">資料來源 TWBuyers Info ↗</a>
+    <span>實際售價以購物平台為準</span>
+  </footer>
+</body>
+</html>
